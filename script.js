@@ -151,14 +151,59 @@
 // 3) Напишіть функцію, яка отримує масив об'єктів з інформацією про товари (назва, ціна, кількість) та використовує деструктуризацію для обчислення загальної вартості товарів.
 
 
-const items = [
-    { name: 'Футболка', price: 250, quantity: 2 },
-    { name: 'Джинси', price: 800, quantity: 1 },
-    { name: 'Кросівки', price: 1200, quantity: 1 }
-  ];
+// const items = [
+//     { name: 'Футболка', price: 250, quantity: 2 },
+//     { name: 'Джинси', price: 800, quantity: 1 },
+//     { name: 'Кросівки', price: 1200, quantity: 1 }
+//   ];
 
-  function calculateTotalCost(params) {
-    return params.reduce((acc, { price, quantity }) => acc + price * quantity, 0); // Обчислюємо загальну вартість
-}
+//   function calculateTotalCost(params) {
+//     return params.reduce((acc, { price, quantity }) => acc + price * quantity, 0); // Обчислюємо загальну вартість
+// }
  
-  console.log(calculateTotalCost(items)); // 250 * 2 + 800 * 1 + 1200 * 1 = 2500
+//   console.log(calculateTotalCost(items)); // 250 * 2 + 800 * 1 + 1200 * 1 = 2500
+
+
+// const countryHtml = document.querySelector('.country')
+
+// fetch('https://restcountries.com/v3.1/all')
+// .then(response => response.json())
+// .then(data => {
+//   data.forEach(country => {
+//     // console.log(country);  
+//     // console.log(country.name.common);  
+//     // console.log(country.flags.png);
+//     // console.log(country.name.common);
+//     console.log(Object.keys(country.currencies));
+//     const currencies = Object.values(country.currencies);
+//     countryHtml.innerHTML+=`
+//     <div class="box">
+//         <img src="${country.flags.png}" alt="${country.flags.alt ? country.flags.alt : country.name.common}">
+//         <h1>${country.name.common}</h1>
+//         <h2>${currencies[0].name ? currencies[0].name : 'No currency'}</h2>
+       
+
+//     </div> 
+//     `
+//   });
+// })
+// .catch(error => console.error('Помилка:', error));
+
+
+const containerCountry = document.querySelector('.country'); 
+fetch('https://restcountries.com/v3.1/all')
+  .then(response => response.json())
+  .then(data => {
+    data.forEach(country => {
+      const currencyOfName = Object.values(country.currencies).map(currency => currency.name).join(', ');
+      containerCountry.innerHTML += `
+          <div class="box">
+            <img src="${country.flags.png}" alt="Flag of ${country.name.common}" class="box-flag">
+            <h2 class="box-name">${country.name.common}</h2>
+            <p class="box-population">Population: ${country.population}</p>
+            <p class="box-value">Currency: ${currencyOfName}</p>
+          </div>
+      `;
+    });
+  })
+  .catch(error => console.error('Помилка:', error));
